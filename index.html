@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
 <title>My Skripsi Journey — Adhazone</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
 <style>
@@ -79,10 +79,10 @@ textarea{resize:none;min-height:72px}
 .moverlay{display:none;position:fixed;inset:0;background:rgba(12,35,64,.55);z-index:200;align-items:flex-end;justify-content:center}
 .moverlay.open{display:flex;animation:mfade .2s}
 @keyframes mfade{from{opacity:0}to{opacity:1}}
-.modal{background:var(--white);border-radius:24px 24px 0 0;padding:22px 18px 32px;width:100%;max-width:430px;animation:mup .25s ease;max-height:90vh;overflow-y:auto}
+.modal{background:var(--white);border-radius:24px 24px 0 0;width:100%;max-width:430px;animation:mup .25s ease;max-height:70vh;overflow:hidden}
 @keyframes mup{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .mtitle{font-size:15px;font-weight:900;color:var(--navy2);margin-bottom:16px}
-.mclose{float:right;background:none;border:none;font-size:20px;color:var(--blue3);cursor:pointer;margin-top:-2px}
+.mclose{float:right;background:none;border:none;font-size:22px;color:var(--blue3);cursor:pointer;margin-top:-2px;padding:4px 8px;line-height:1}
 
 /* TOAST */
 #toast{position:fixed;bottom:calc(var(--nav-h)+14px);left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy2);color:var(--white);padding:10px 20px;border-radius:12px;font-size:13px;font-weight:800;z-index:999;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.25);opacity:0;transition:all .3s;pointer-events:none}
@@ -441,34 +441,46 @@ textarea{resize:none;min-height:72px}
 
 <!-- MODAL: Add Ref -->
 <div class="moverlay" id="modal-ref">
-  <div class="modal">
-    <button class="mclose" onclick="closeModal('modal-ref')">✕</button>
-    <div class="mtitle">📚 Tambah Referensi</div>
-    <div class="ig"><label class="il">Judul</label><input type="text" id="rf-j" placeholder="Judul jurnal / buku..."></div>
-    <div class="ig"><label class="il">Penulis</label><input type="text" id="rf-p" placeholder="Nama penulis..."></div>
-    <div class="ig"><label class="il">Tahun</label><input type="text" id="rf-t" placeholder="2024"></div>
-    <div class="ig"><label class="il">Link (opsional)</label><input type="url" id="rf-l" placeholder="https://..."></div>
-    <button class="btn btn-navy btn-full" onclick="addRef()">Simpan Referensi</button>
+  <div class="modal" style="padding:0;display:flex;flex-direction:column;max-height:70vh">
+    <div style="padding:18px 18px 0;flex-shrink:0">
+      <button class="mclose" onclick="closeModal('modal-ref')">✕</button>
+      <div class="mtitle">📚 Tambah Referensi</div>
+    </div>
+    <div style="overflow-y:auto;padding:0 18px;flex:1;-webkit-overflow-scrolling:touch">
+      <div class="ig"><label class="il">Judul</label><input type="text" id="rf-j" placeholder="Judul jurnal / buku..."></div>
+      <div class="ig"><label class="il">Penulis</label><input type="text" id="rf-p" placeholder="Nama penulis..."></div>
+      <div class="ig"><label class="il">Tahun</label><input type="text" id="rf-t" placeholder="2024"></div>
+      <div class="ig"><label class="il">Link (opsional)</label><input type="url" id="rf-l" placeholder="https://..."></div>
+    </div>
+    <div style="padding:14px 18px;padding-bottom:max(18px,env(safe-area-inset-bottom,18px));border-top:1px solid var(--blue5);flex-shrink:0">
+      <button class="btn btn-navy btn-full" onclick="addRef()">💾 Simpan Referensi</button>
+    </div>
   </div>
 </div>
 
 <!-- MODAL: Add Subtask -->
 <div class="moverlay" id="modal-sub">
-  <div class="modal">
-    <button class="mclose" onclick="closeModal('modal-sub')">✕</button>
-    <div class="mtitle">⚡ Tambah Tugas Kecil</div>
-    <div class="ig"><label class="il">Bab</label>
-      <select id="sub-bab">
-        <option value="proposal">Proposal</option>
-        <option value="bab1">Bab 1 — Pendahuluan</option>
-        <option value="bab2">Bab 2 — Tinjauan Pustaka</option>
-        <option value="bab3">Bab 3 — Metodologi</option>
-        <option value="bab4">Bab 4 — Hasil & Pembahasan</option>
-        <option value="bab5">Bab 5 — Kesimpulan</option>
-      </select>
+  <div class="modal" style="padding:0;display:flex;flex-direction:column;max-height:70vh">
+    <div style="padding:18px 18px 0;flex-shrink:0">
+      <button class="mclose" onclick="closeModal('modal-sub')">✕</button>
+      <div class="mtitle">⚡ Tambah Tugas Kecil</div>
     </div>
-    <div class="ig"><label class="il">Tugas Kecil (15 menit)</label><input type="text" id="sub-text" placeholder="Misal: Tulis 2 paragraf pembuka..."></div>
-    <button class="btn btn-navy btn-full" onclick="addSubtask()">Tambah Tugas</button>
+    <div style="overflow-y:auto;padding:0 18px;flex:1;-webkit-overflow-scrolling:touch">
+      <div class="ig"><label class="il">Bab</label>
+        <select id="sub-bab">
+          <option value="proposal">Proposal</option>
+          <option value="bab1">Bab 1 — Pendahuluan</option>
+          <option value="bab2">Bab 2 — Tinjauan Pustaka</option>
+          <option value="bab3">Bab 3 — Metodologi</option>
+          <option value="bab4">Bab 4 — Hasil & Pembahasan</option>
+          <option value="bab5">Bab 5 — Kesimpulan</option>
+        </select>
+      </div>
+      <div class="ig"><label class="il">Tugas Kecil (15 menit)</label><input type="text" id="sub-text" placeholder="Misal: Tulis 2 paragraf pembuka..."></div>
+    </div>
+    <div style="padding:14px 18px;padding-bottom:max(18px,env(safe-area-inset-bottom,18px));border-top:1px solid var(--blue5);flex-shrink:0">
+      <button class="btn btn-navy btn-full" onclick="addSubtask()">⚡ Tambah Tugas</button>
+    </div>
   </div>
 </div>
 
@@ -694,9 +706,18 @@ function togSub(bab,i){const subs=S.get('subtasks')||{};subs[bab][i].done=!subs[
 function delSub(bab,i){const subs=S.get('subtasks')||{};subs[bab].splice(i,1);S.set('subtasks',subs);renderSubtask();}
 
 // ─── MODAL ───
-function openModal(id){document.getElementById(id).classList.add('open');}
-function closeModal(id){document.getElementById(id).classList.remove('open');}
-document.querySelectorAll('.moverlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
+function openModal(id){
+  const el=document.getElementById(id);
+  el.classList.add('open');
+  document.body.style.overflow='hidden';
+  // scroll modal content to top
+  setTimeout(()=>{const m=el.querySelector('.modal');if(m)m.scrollTop=0;},50);
+}
+function closeModal(id){
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow='';
+}
+document.querySelectorAll('.moverlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m){m.classList.remove('open');document.body.style.overflow='';}}));
 
 // ─── TOAST ───
 function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2400);}
