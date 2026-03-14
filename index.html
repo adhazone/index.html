@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>My Skripsi Journey — Adhazone</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:#0C2340; --navy2:#1A3C5E; --navy3:#1F4E79;
+  --blue:#2E6DA4; --blue2:#5BA3D9; --blue3:#90BFE8; --blue4:#BDD9F2; --blue5:#D6EAFA; --blue6:#EBF4FB;
+  --gold:#E8B84B; --gold2:#F0C84A; --gold3:#F7DC8E; --gold4:#FDF6E3; --gold5:#FEFBF0;
+  --white:#FFFFFF; --offwhite:#F8FAFC; --nav-h:68px; --r:16px;
+  --sh:0 4px 20px rgba(12,35,64,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Nunito',sans-serif;background:var(--blue6);color:var(--navy);max-width:430px;margin:0 auto;min-height:100vh;overflow-x:hidden}
+
+/* SCREENS */
+.screen{display:none;padding:16px 14px calc(var(--nav-h)+24px);min-height:100vh;animation:fadeUp .28s ease}
+.screen.active{display:block}
+#screen-home{padding-top:0;padding-left:0;padding-right:0}
+#screen-home > *:not(:first-child){margin-left:14px;margin-right:14px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* NAV */
+.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--white);border-top:2px solid var(--blue5);display:flex;height:var(--nav-h);box-shadow:0 -4px 20px rgba(12,35,64,.08);z-index:100}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;border:none;background:none;font-family:inherit;color:var(--blue3);transition:all .18s;padding:8px 2px}
+.ni.active{color:var(--navy2)}
+.ni-ico{font-size:22px;width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;transition:all .18s}
+.ni.active .ni-ico{background:var(--blue6)}
+.ni-lbl{font-size:9px;font-weight:800;letter-spacing:.4px}
+
+/* BRANDING HEADER */
+.brand-bar{background:linear-gradient(135deg,var(--navy) 0%,var(--navy3) 100%);padding:8px 16px;display:flex;align-items:center;gap:8px;border-radius:0 0 16px 16px;margin:-16px -14px 16px;position:sticky;top:0;z-index:50}
+.brand-name{font-size:10px;font-weight:900;letter-spacing:2px;color:var(--gold);text-transform:uppercase}
+.brand-sub{font-size:9px;color:var(--blue3);font-weight:600}
+.brand-dot{width:4px;height:4px;border-radius:50%;background:var(--gold);opacity:.6}
+
+/* CARDS */
+.card{background:var(--white);border-radius:var(--r);padding:16px;margin-bottom:12px;box-shadow:var(--sh)}
+.card-title{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:1.8px;color:var(--blue);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.card-title-ico{font-size:16px}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:10px;border:none;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;transition:all .15s;white-space:nowrap}
+.btn-navy{background:var(--navy2);color:var(--gold)}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-ghost{background:var(--blue6);color:var(--navy2)}
+.btn-red{background:#FCECEA;color:#B03A2E}
+.btn-sm{padding:7px 12px;font-size:12px;border-radius:8px}
+.btn-full{width:100%;justify-content:center}
+
+/* INPUTS */
+.il{display:block;font-size:10px;font-weight:900;color:var(--blue);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:5px}
+input[type=text],input[type=date],input[type=url],input[type=time],textarea,select{width:100%;padding:10px 14px;border:2px solid var(--blue5);border-radius:10px;font-family:inherit;font-size:14px;color:var(--navy);background:var(--white);outline:none;transition:border .15s}
+input:focus,textarea:focus,select:focus{border-color:var(--blue)}
+textarea{resize:none;min-height:72px}
+.ig{margin-bottom:12px}
+
+/* DIVIDER */
+.dv{height:1px;background:var(--blue5);margin:14px 0}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800}
+.bd-done{background:#E6F4ED;color:#1A6B45}
+.bd-go{background:var(--gold4);color:#7A4F00}
+.bd-wait{background:var(--blue6);color:var(--blue)}
+
+/* QUOTE BOX */
+.qbox{background:var(--navy);border-radius:14px;padding:14px 16px;border-left:4px solid var(--gold);margin-bottom:14px}
+.qtext{font-size:13px;color:var(--blue4);font-style:italic;line-height:1.65}
+
+/* MODAL */
+.moverlay{display:none;position:fixed;inset:0;background:rgba(12,35,64,.55);z-index:200;align-items:flex-end;justify-content:center}
+.moverlay.open{display:flex;animation:mfade .2s}
+@keyframes mfade{from{opacity:0}to{opacity:1}}
+.modal{background:var(--white);border-radius:24px 24px 0 0;padding:22px 18px 32px;width:100%;max-width:430px;animation:mup .25s ease;max-height:90vh;overflow-y:auto}
+@keyframes mup{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.mtitle{font-size:15px;font-weight:900;color:var(--navy2);margin-bottom:16px}
+.mclose{float:right;background:none;border:none;font-size:20px;color:var(--blue3);cursor:pointer;margin-top:-2px}
+
+/* TOAST */
+#toast{position:fixed;bottom:calc(var(--nav-h)+14px);left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy);color:var(--gold);padding:10px 20px;border-radius:12px;font-size:13px;font-weight:800;z-index:999;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.25);opacity:0;transition:all .3s;pointer-events:none}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* FAB */
+.fab{position:fixed;bottom:calc(var(--nav-h)+14px);right:14px;width:50px;height:50px;border-radius:50%;background:var(--navy2);color:var(--gold);font-size:26px;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(12,35,64,.3);display:none;align-items:center;justify-content:center;z-index:90;transition:transform .15s}
+.fab:active{transform:scale(.9)}
+.fab.show{display:flex}
+
+/* PROGRESS SLIDER */
+.bslider{width:100%;-webkit-appearance:none;height:6px;border-radius:99px;background:var(--blue5);outline:none;cursor:pointer}
+.bslider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--navy2);cursor:pointer;border:3px solid var(--gold)}
+
+/* TABS */
+.tabs{display:flex;background:var(--blue6);border-radius:12px;padding:4px;margin-bottom:14px}
+.tab{flex:1;padding:8px 4px;border-radius:9px;border:none;background:none;font-family:inherit;font-size:11px;font-weight:800;color:var(--blue2);cursor:pointer;transition:all .15s}
+.tab.active{background:var(--white);color:var(--navy2);box-shadow:0 2px 8px rgba(12,35,64,.1)}
+
+/* TODO */
+.todo-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--blue6)}
+.todo-item:last-child{border:none}
+.todo-chk{width:20px;height:20px;border:2.5px solid var(--blue3);border-radius:5px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin-top:2px;transition:all .15s}
+.todo-chk.done{background:var(--navy2);border-color:var(--navy2)}
+.todo-text{font-size:13px;flex:1;line-height:1.45}
+.todo-text.done{text-decoration:line-through;color:var(--blue3)}
+.todo-meta{font-size:11px;color:var(--blue2);margin-top:2px;display:flex;gap:8px}
+.todo-del{color:var(--blue3);font-size:18px;cursor:pointer;padding:0 4px;background:none;border:none;line-height:1}
+
+/* MOOD SECTION */
+.mood-sel{display:flex;justify-content:space-between;gap:4px;margin-bottom:14px}
+.mood-btn{flex:1;padding:10px 2px;border-radius:12px;border:2px solid var(--blue5);background:var(--white);display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;transition:all .15s;font-family:inherit}
+.mood-btn.active{border-color:var(--gold);background:var(--gold4)}
+.mood-em{font-size:22px}
+.mood-lbl{font-size:10px;font-weight:800;color:var(--navy2)}
+.mood-week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:8px}
+.mday{display:flex;flex-direction:column;align-items:center;gap:3px}
+.mday-dot{width:30px;height:30px;border-radius:50%;background:var(--blue6);display:flex;align-items:center;justify-content:center;font-size:15px}
+.mday-lbl{font-size:9px;color:var(--blue3);font-weight:700}
+.curhat-item{background:var(--blue6);border-radius:10px;padding:12px 14px;margin-bottom:8px}
+.curhat-num{font-size:10px;font-weight:900;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
+
+/* SUBTASK */
+.subtask-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--blue6)}
+.subtask-item:last-child{border:none}
+.sub-chk{width:18px;height:18px;border:2px solid var(--blue3);border-radius:4px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all .15s}
+.sub-chk.done{background:var(--navy2);border-color:var(--navy2)}
+.sub-text{font-size:13px;flex:1}
+.sub-text.done{text-decoration:line-through;color:var(--blue3)}
+
+/* REF */
+.ref-card{background:var(--white);border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:var(--sh);border-left:4px solid var(--blue)}
+.ref-card.read{border-left-color:var(--gold)}
+.ref-title{font-size:13px;font-weight:800;color:var(--navy2);margin-bottom:3px}
+.ref-meta{font-size:11px;color:var(--blue2)}
+
+/* MILESTONE */
+.mstone{background:var(--white);border-radius:14px;padding:15px;margin-bottom:10px;box-shadow:var(--sh);border-left:4px solid var(--blue)}
+.mstone.done{border-left-color:#27AE60}
+.ms-row{display:flex;align-items:center;justify-content:space-between}
+.ms-name{font-size:14px;font-weight:800;color:var(--navy2)}
+.ms-sub{font-size:11px;color:var(--blue2);margin-top:2px}
+.days-pill{background:var(--navy);color:var(--gold);padding:6px 12px;border-radius:10px;font-size:12px;font-weight:900;white-space:nowrap}
+.days-pill.soon{background:var(--gold);color:var(--navy)}
+.days-pill.done{background:#E6F4ED;color:#1A6B45}
+
+/* DOWNLOAD BUTTON */
+.dl-btn{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--navy2),var(--navy3));color:var(--gold);border:none;border-radius:12px;padding:12px 18px;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;width:100%;justify-content:center;margin-top:8px}
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- FAB -->
+<button class="fab" id="fab" onclick="handleFab()">＋</button>
+
+<!-- ════════════════════════════════
+     SCREEN: HOME
+════════════════════════════════ -->
+<div class="screen active" id="screen-home">
+
+  <!-- ── UNIFIED HERO PANEL ── -->
+  <div style="background:linear-gradient(160deg,var(--navy) 0%,var(--navy3) 60%,#2A5A8C 100%);border-radius:0 0 28px 28px;padding:0;margin-bottom:14px;position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(12,35,64,.25)">
+
+    <!-- decorative blobs -->
+    <div style="position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(232,184,75,.18),transparent 70%);pointer-events:none"></div>
+    <div style="position:absolute;bottom:-30px;left:-30px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(93,163,217,.15),transparent 70%);pointer-events:none"></div>
+    <div style="position:absolute;top:50%;right:16px;font-size:90px;opacity:.06;transform:translateY(-50%);pointer-events:none;line-height:1">🎓</div>
+
+    <!-- brand strip inside hero -->
+    <div style="padding:20px 20px 0;display:flex;align-items:center;gap:6px">
+      <span style="font-size:14px">✨</span>
+      <span style="font-size:9px;font-weight:900;letter-spacing:2.5px;color:var(--gold);text-transform:uppercase">Adhazone</span>
+      <span style="font-size:9px;color:var(--blue3);font-weight:600">— Teman Skripsimu</span>
+    </div>
+
+    <!-- name + tagline -->
+    <div style="padding:12px 20px 0">
+      <div style="font-family:'Playfair Display',serif;font-size:28px;color:var(--gold);line-height:1.15;margin-bottom:6px" id="home-name">Halo, Mahasiswa! 👋</div>
+      <div style="font-size:13px;color:var(--blue4);line-height:1.65;margin-bottom:2px">Mari kita mulai petualangan skripsimu hari ini.</div>
+      <div style="font-size:12px;color:var(--blue3);font-style:italic;margin-bottom:14px" id="home-nim">Siap mencatat setiap langkah suksesmu. 🚀</div>
+    </div>
+
+    <!-- divider wave feel -->
+    <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);margin:0 20px"></div>
+
+    <!-- stats row embedded in hero -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;padding:0">
+      <!-- progress stat -->
+      <div style="padding:14px 20px;border-right:1px solid rgba(255,255,255,.07)">
+        <div style="font-size:9px;font-weight:900;color:var(--blue3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px">📊 Progress Skripsi</div>
+        <div style="font-size:28px;font-weight:900;color:var(--white);margin-bottom:6px" id="home-pct">0%</div>
+        <div style="background:rgba(255,255,255,.12);border-radius:99px;height:5px;overflow:hidden">
+          <div id="home-bar" style="height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .6s ease;width:0%"></div>
+        </div>
+      </div>
+      <!-- countdown stat -->
+      <div style="padding:14px 20px;cursor:pointer;transition:background .2s" onclick="navigate('countdown',null)" id="cd-cell">
+        <div style="font-size:9px;font-weight:900;color:var(--blue3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px">⏳ Sempro</div>
+        <div style="font-size:28px;font-weight:900;color:var(--white);margin-bottom:2px" id="home-cd">—</div>
+        <div style="font-size:10px;color:var(--blue4);margin-bottom:4px">hari lagi</div>
+        <div style="font-size:10px;color:var(--gold);font-weight:800">Tap isi tanggal →</div>
+      </div>
+    </div>
+
+    <!-- mood strip at bottom of hero -->
+    <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);margin:0 20px"></div>
+    <div style="padding:12px 20px 16px;display:flex;align-items:center;justify-content:space-between">
+      <div style="font-size:10px;font-weight:900;color:var(--blue3);text-transform:uppercase;letter-spacing:1.2px">🧠 Mood Hari Ini</div>
+      <div id="home-mood-inline"><a href="#" onclick="navigate('mood');return false" style="font-size:11px;color:var(--gold);font-weight:800;text-decoration:none">Isi sekarang →</a></div>
+    </div>
+  </div>
+
+  <!-- Quote — flows right below hero, no gap feeling -->
+  <div style="background:var(--navy2);border-radius:16px;padding:14px 18px;margin-bottom:14px;border-left:3px solid var(--gold)">
+    <div style="font-size:12px;color:var(--blue4);font-style:italic;line-height:1.65" id="home-quote">"Skripsi itu diselesaikan satu paragraf per hari, bukan satu malam sebelum deadline."</div>
+  </div>
+
+  <!-- Judul -->
+  <div class="card">
+    <div class="card-title"><span class="card-title-ico">📄</span> Judul Skripsi</div>
+    <div style="font-size:13px;color:var(--navy2);line-height:1.6" id="home-judul">Belum diisi. <a href="#" onclick="navigate('profil');return false" style="color:var(--blue);font-weight:800">Isi profil →</a></div>
+  </div>
+
+  <!-- Quick links -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:4px">
+    <button onclick="navigate('profil')" style="background:var(--white);border:2px solid var(--blue5);border-radius:14px;padding:14px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:inherit;transition:border-color .15s" onmouseenter="this.style.borderColor='var(--gold)'" onmouseleave="this.style.borderColor='var(--blue5)'">
+      <span style="font-size:24px">👤</span><span style="font-size:10px;font-weight:800;color:var(--navy2)">Profil</span>
+    </button>
+    <button onclick="navigate('ref')" style="background:var(--white);border:2px solid var(--blue5);border-radius:14px;padding:14px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:inherit;transition:border-color .15s" onmouseenter="this.style.borderColor='var(--gold)'" onmouseleave="this.style.borderColor='var(--blue5)'">
+      <span style="font-size:24px">📚</span><span style="font-size:10px;font-weight:800;color:var(--navy2)">Referensi</span>
+    </button>
+    <button onclick="navigate('subtask')" style="background:var(--white);border:2px solid var(--blue5);border-radius:14px;padding:14px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:inherit;transition:border-color .15s" onmouseenter="this.style.borderColor='var(--gold)'" onmouseleave="this.style.borderColor='var(--blue5)'">
+      <span style="font-size:24px">🔨</span><span style="font-size:10px;font-weight:800;color:var(--navy2)">Task Bab</span>
+    </button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     SCREEN: PROFIL
+════════════════════════════════ -->
+<div class="screen" id="screen-profil">
+  <div class="brand-bar"><span style="font-size:18px">👤</span><div><div class="brand-name">Adhazone</div><div class="brand-sub">Teman Skripsimu</div></div></div>
+  <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--navy2);margin-bottom:14px">Profil Skripsi ✏️</div>
+  <div class="card">
+    <div class="card-title"><span class="card-title-ico">🎓</span> Data Mahasiswa</div>
+    <div class="ig"><label class="il">Nama Lengkap</label><input type="text" id="p-nama" placeholder="Nama kamu..."></div>
+    <div class="ig"><label class="il">NIM</label><input type="text" id="p-nim" placeholder="Nomor Induk Mahasiswa..."></div>
+    <div class="ig"><label class="il">Program Studi</label><input type="text" id="p-prodi" placeholder="PGSD / ..."></div>
+    <div class="ig"><label class="il">Judul Skripsi</label><textarea id="p-judul" placeholder="Judul lengkap skripsimu..."></textarea></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="card-title-ico">👨‍🏫</span> Dosen Pembimbing</div>
+    <div class="ig"><label class="il">Pembimbing 1</label><input type="text" id="p-d1" placeholder="Nama lengkap + gelar..."></div>
+    <div class="ig"><label class="il">NIP / NIDN</label><input type="text" id="p-n1" placeholder="NIP..."></div>
+    <div class="dv"></div>
+    <div class="ig"><label class="il">Pembimbing 2</label><input type="text" id="p-d2" placeholder="Nama lengkap + gelar..."></div>
+    <div class="ig"><label class="il">NIP / NIDN</label><input type="text" id="p-n2" placeholder="NIP..."></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="card-title-ico">🔍</span> Dosen Penguji</div>
+    <div class="ig"><label class="il">Penguji Sempro 1</label><input type="text" id="p-ps1" placeholder="Nama..."></div>
+    <div class="ig"><label class="il">Penguji Sempro 2</label><input type="text" id="p-ps2" placeholder="Nama..."></div>
+    <div class="dv"></div>
+    <div class="ig"><label class="il">Penguji Semhas 1</label><input type="text" id="p-ph1" placeholder="Nama..."></div>
+    <div class="ig"><label class="il">Penguji Semhas 2</label><input type="text" id="p-ph2" placeholder="Nama..."></div>
+    <div class="dv"></div>
+    <div class="ig"><label class="il">Penguji Semtup 1</label><input type="text" id="p-pt1" placeholder="Nama..."></div>
+    <div class="ig"><label class="il">Penguji Semtup 2</label><input type="text" id="p-pt2" placeholder="Nama..."></div>
+  </div>
+  <button class="btn btn-navy btn-full" onclick="saveProfil()">💾 Simpan Profil</button>
+  <div style="height:12px"></div>
+</div>
+
+<!-- ════════════════════════════════
+     SCREEN: PROGRESS
+════════════════════════════════ -->
+<div class="screen" id="screen-progress">
+  <div class="brand-bar"><span style="font-size:18px">📊</span><div><div class="brand-name">Adhazone</div><div class="brand-sub">Teman Skripsimu</div></div></div>
+  <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--navy2);margin-bottom:14px">Progress Skripsi 📈</div>
+  <div class="card" style="margin-bottom:14px">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="font-size:30px;font-weight:900;color:var(--navy2)" id="total-pct">0%</div>
+      <div style="flex:1">
+        <div style="font-size:12px;color:var(--blue2);margin-bottom:6px">Keseluruhan</div>
+        <div style="background:var(--blue5);border-radius:99px;height:10px;overflow:hidden">
+          <div id="total-bar" style="height:100%;border-radius:99px;background:linear-gradient(90deg,var(--navy2),var(--blue2));transition:width .5s;width:0%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="bab-list"></div>
+</div>
+
+<!-- ════════════════════════════════
+     SCREEN: COUNTDOWN
+════════════════════════════════ -->
+<div class="screen" id="screen-countdown">
+  <div class="brand-bar"><span style="font-size:18px">🎯</span><div><div class="brand-name">Adhazone</div><div class="brand-sub">Teman Skripsimu</div></div></div>
+  <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--navy2);margin-bottom:14px">Target & Countdown ⏳</div>
+  <div class="qbox"><div class="qtext">"Isi tanggal targetmu sekarang — bukan nanti. Tanggal yang ditulis adalah janji pada diri sendiri."</div></div>
+  <div id="milestone-list"></div>
+</div>
+
+<!-- ════════════════════════════════
+     SCREEN: MOOD
+════════════════════════════════ -->
+<div class="screen" id="screen-mood">
+  <div class="brand-bar"><span style="font-size:18px">🧠</span><div><div class="brand-name">Adhazone</div><div class="brand-sub">Teman Skripsimu</div></div></div>
+  <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--navy2);margin-bottom:14px">Mood & Curhat 💬</div>
+
+  <div class="card">
+    <div class="card-title"><span class="card-title-ico">🌡️</span> Skor Kewarasan Hari Ini</div>
+    <div class="mood-sel" id="mood-sel">
+      <button class="mood-btn" onclick="setMood(1)"><span class="mood-em">😩</span><span class="mood-lbl">Hancur</span></button>
+      <button class="mood-btn" onclick="setMood(2)"><span class="mood-em">😔</span><span class="mood-lbl">Berat</span></button>
+      <button class="mood-btn" onclick="setMood(3)"><span class="mood-em">😐</span><span class="mood-lbl">Oke Aja</span></button>
+      <button class="mood-btn" onclick="setMood(4)"><span class="mood-em">😊</span><span class="mood-lbl">Lumayan</span></button>
+      <button class="mood-btn" onclick="setMood(5)"><span class="mood-em">🔥</span><span class="mood-lbl">On Fire</span></button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="card-title-ico">💢</span> Unek-Unek Hari Ini</div>
+    <div style="font-size:12px;color:var(--blue2);margin-bottom:8px;font-style:italic">Marah? Frustrasi? Tulis di sini. Nggak ada yang ngehakimin.</div>
+    <textarea id="mood-unek" placeholder="Ceritain aja..."></textarea>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="card-title-ico">🔧</span> Perlu Diubah Besok</div>
+    <div style="font-size:12px;color:var(--blue2);margin-bottom:8px;font-style:italic">Bukan salahmu — tapi bisa diperbaiki.</div>
+    <textarea id="mood-perbaiki" placeholder="Apa yang bisa diperbaiki besok?"></textarea>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="card-title-ico">✨</span> Alasan Kenapa Gue Harus Lanjut</div>
+    <div style="font-size:12px;color:var(--blue2);margin-bottom:12px;font-style:italic">Hal kecil hari ini yang nggak boleh dilupain.</div>
+    <div class="curhat-item">
+      <div class="curhat-num">🌟 01 — Hal kecil yang aku syukuri hari ini</div>
+      <textarea id="curhat1" placeholder="Sekecil apapun itu, tetap valid..." style="min-height:56px"></textarea>
+    </div>
+    <div class="curhat-item">
+      <div class="curhat-num">✅ 02 — Satu hal yang ternyata berjalan lancar</div>
+      <textarea id="curhat2" placeholder="Ada yang berhasil hari ini?" style="min-height:56px"></textarea>
+    </div>
+    <div class="curhat-item" style="margin-bottom:0">
+      <div class="curhat-num">💪 03 — Seseorang / sesuatu yang bikin semangat lagi</div>
+      <textarea id="curhat3" placeholder="Siapa atau apa yang bikin kamu mau lanjut?" style="min-height:56px"></textarea>
+    </div>
+  </div>
+
+  <button class="btn btn-navy btn-full" onclick="saveMood()" style="margin-bottom:8px">💾 Simpan Mood Hari Ini</button>
+  <button class="dl-btn" onclick="downloadMoodRecap()">📥 Download Journey Recap</button>
+
+  <div class="card" style="margin-top:14px">
+    <div class="card-title"><span class="card-title-ico">📅</span> 7 Hari Terakhir</div>
+    <div class="mood-week" id="mood-week"></div>
+  </div>
+
+  <div class="qbox" style="margin-top:4px"><div class="qtext">"Perasaan frustrasi itu bukan tanda kamu lemah. Itu tanda kamu peduli. Dan orang yang peduli biasanya nggak berhenti."</div></div>
+</div>
+
+<!-- ════════════════════════════════
+     SCREEN: REFERENSI
+════════════════════════════════ -->
+<div class="screen" id="screen-ref">
+  <div class="brand-bar"><span style="font-size:18px">📚</span><div><div class="brand-name">Adhazone</div><div class="brand-sub">Teman Skripsimu</div></div></div>
+  <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--navy2);margin-bottom:14px">Bank Referensi 📖</div>
+  <div class="tabs">
+    <button class="tab active" onclick="filterRef('all',this)">Semua</button>
+    <button class="tab" onclick="filterRef('unread',this)">Belum</button>
+    <button class="tab" onclick="filterRef('read',this)">Dibaca</button>
+    <button class="tab" onclick="filterRef('cited',this)">Disitasi</button>
+  </div>
+  <div id="ref-list"></div>
+  <div style="height:80px"></div>
+</div>
+
+<!-- ════════════════════════════════
+     SCREEN: DAILY LOG
+════════════════════════════════ -->
+<div class="screen" id="screen-log">
+  <div class="brand-bar"><span style="font-size:18px">📋</span><div><div class="brand-name">Adhazone</div><div class="brand-sub">Teman Skripsimu</div></div></div>
+  <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--navy2);margin-bottom:4px">Daily Survival Log 🗓️</div>
+  <div style="font-size:12px;color:var(--blue2);margin-bottom:14px" id="log-date"></div>
+
+  <div class="card">
+    <div class="card-title"><span class="card-title-ico">🎯</span> Target Utama Hari Ini</div>
+    <input type="text" id="log-target" placeholder="Satu hal yang WAJIB selesai hari ini...">
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="card-title-ico">✅</span> Checklist Harian</div>
+    <div id="todo-list"></div>
+    <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:6px;margin-top:10px">
+      <input type="text" id="new-todo" placeholder="Tugas..." style="font-size:13px">
+      <input type="time" id="new-jam" style="width:80px;font-size:12px;padding:8px">
+      <input type="text" id="new-lokasi" placeholder="Lokasi" style="width:90px;font-size:12px">
+      <button class="btn btn-gold btn-sm" onclick="addTodo()">＋</button>
+    </div>
+    <div style="font-size:11px;color:var(--blue3);margin-top:4px">Isi jam & lokasi bersifat opsional</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="card-title-ico">📝</span> Catatan Bebas</div>
+    <textarea id="log-notes" placeholder="Catatan, pengingat, atau apapun..."></textarea>
+  </div>
+
+  <button class="btn btn-navy btn-full" onclick="saveLog()" style="margin-bottom:8px">💾 Simpan Log Hari Ini</button>
+  <div style="height:12px"></div>
+</div>
+
+<!-- ════════════════════════════════
+     SCREEN: SUBTASK (BAB BREAKER)
+════════════════════════════════ -->
+<div class="screen" id="screen-subtask">
+  <div class="brand-bar"><span style="font-size:18px">🔨</span><div><div class="brand-name">Adhazone</div><div class="brand-sub">Teman Skripsimu</div></div></div>
+  <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--navy2);margin-bottom:6px">Task Breaker ⚡</div>
+  <div style="font-size:13px;color:var(--blue2);margin-bottom:14px">Pecah setiap bab jadi tugas-tugas kecil yang bisa selesai dalam 15 menit.</div>
+  <div id="subtask-babs"></div>
+  <div style="height:80px"></div>
+</div>
+
+<!-- ════════════
+     BOTTOM NAV
+════════════ -->
+<nav class="bnav">
+  <button class="ni active" onclick="navigate('home',this)"><div class="ni-ico">🏠</div><span class="ni-lbl">Beranda</span></button>
+  <button class="ni" onclick="navigate('progress',this)"><div class="ni-ico">📊</div><span class="ni-lbl">Progress</span></button>
+  <button class="ni" onclick="navigate('countdown',this)"><div class="ni-ico">🎯</div><span class="ni-lbl">Target</span></button>
+  <button class="ni" onclick="navigate('mood',this)"><div class="ni-ico">🧠</div><span class="ni-lbl">Mood</span></button>
+  <button class="ni" onclick="navigate('log',this)"><div class="ni-ico">📋</div><span class="ni-lbl">Daily Log</span></button>
+</nav>
+
+<!-- MODAL: Add Ref -->
+<div class="moverlay" id="modal-ref">
+  <div class="modal">
+    <button class="mclose" onclick="closeModal('modal-ref')">✕</button>
+    <div class="mtitle">📚 Tambah Referensi</div>
+    <div class="ig"><label class="il">Judul</label><input type="text" id="rf-j" placeholder="Judul jurnal / buku..."></div>
+    <div class="ig"><label class="il">Penulis</label><input type="text" id="rf-p" placeholder="Nama penulis..."></div>
+    <div class="ig"><label class="il">Tahun</label><input type="text" id="rf-t" placeholder="2024"></div>
+    <div class="ig"><label class="il">Link (opsional)</label><input type="url" id="rf-l" placeholder="https://..."></div>
+    <button class="btn btn-navy btn-full" onclick="addRef()">Simpan Referensi</button>
+  </div>
+</div>
+
+<!-- MODAL: Add Subtask -->
+<div class="moverlay" id="modal-sub">
+  <div class="modal">
+    <button class="mclose" onclick="closeModal('modal-sub')">✕</button>
+    <div class="mtitle">⚡ Tambah Tugas Kecil</div>
+    <div class="ig"><label class="il">Bab</label>
+      <select id="sub-bab">
+        <option value="proposal">Proposal</option>
+        <option value="bab1">Bab 1 — Pendahuluan</option>
+        <option value="bab2">Bab 2 — Tinjauan Pustaka</option>
+        <option value="bab3">Bab 3 — Metodologi</option>
+        <option value="bab4">Bab 4 — Hasil & Pembahasan</option>
+        <option value="bab5">Bab 5 — Kesimpulan</option>
+      </select>
+    </div>
+    <div class="ig"><label class="il">Tugas Kecil (15 menit)</label><input type="text" id="sub-text" placeholder="Misal: Tulis 2 paragraf pembuka..."></div>
+    <button class="btn btn-navy btn-full" onclick="addSubtask()">Tambah Tugas</button>
+  </div>
+</div>
+
+<script>
+// ─── STORAGE ───
+const S={get:k=>{try{return JSON.parse(localStorage.getItem('msj_'+k))}catch{return null}},set:(k,v)=>localStorage.setItem('msj_'+k,JSON.stringify(v))};
+const today=()=>new Date().toISOString().split('T')[0];
+
+// ─── NAV ───
+const SCREENS=['home','profil','progress','countdown','mood','ref','log','subtask'];
+let curScreen='home';
+function navigate(id,btn){
+  SCREENS.forEach(s=>document.getElementById('screen-'+s)?.classList.remove('active'));
+  document.getElementById('screen-'+id)?.classList.add('active');
+  document.querySelectorAll('.ni').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  const fab=document.getElementById('fab');
+  fab.className='fab'+((['ref','subtask'].includes(id))?' show':'');
+  curScreen=id;
+  window.scrollTo(0,0);
+  if(id==='home')renderHome();
+  if(id==='profil')loadProfil();
+  if(id==='progress')renderProgress();
+  if(id==='countdown')renderCountdown();
+  if(id==='mood')renderMood();
+  if(id==='ref')renderRef();
+  if(id==='log')renderLog();
+  if(id==='subtask')renderSubtask();
+}
+function handleFab(){
+  if(curScreen==='ref')openModal('modal-ref');
+  if(curScreen==='subtask')openModal('modal-sub');
+}
+
+// ─── PROFIL ───
+const PF=['nama','nim','prodi','judul','d1','n1','d2','n2','ps1','ps2','ph1','ph2','pt1','pt2'];
+function loadProfil(){const p=S.get('profil')||{};PF.forEach(f=>{const el=document.getElementById('p-'+f);if(el)el.value=p[f]||''});}
+function saveProfil(){const p={};PF.forEach(f=>{const el=document.getElementById('p-'+f);if(el)p[f]=el.value});S.set('profil',p);renderHome();toast('Profil tersimpan! ✅');}
+function gp(){return S.get('profil')||{};}
+
+// ─── HOME ───
+const QUOTES=[
+  '"Skripsi itu diselesaikan satu paragraf per hari, bukan satu malam sebelum deadline."',
+  '"Revisi bukan berarti skripsimu sampah. Itu tanda dosenmu mau kamu lulus lebih baik."',
+  '"Bukan soal siapa yang paling pintar — tapi siapa yang tidak berhenti."',
+  '"15 menit hari ini lebih baik dari 5 jam besok yang penuh panik."',
+  '"Dosen kasih revisi karena dia tau kamu bisa lebih baik."',
+];
+const EMOJIS=['','😩','😔','😐','😊','🔥'];
+const MOOD_LBL=['','Hancur','Berat','Oke Aja','Lumayan','On Fire'];
+function renderHome(){
+  const p=gp();
+  document.getElementById('home-name').textContent=(p.nama?'Halo, '+p.nama+'! 👋':'Halo, Mahasiswa! 👋');
+  document.getElementById('home-nim').textContent=p.nim?'NIM: '+p.nim+' — Siap mencatat setiap langkah suksesmu menuju kelulusan.':'Siap mencatat setiap langkah suksesmu menuju kelulusan.';
+  document.getElementById('home-judul').innerHTML=p.judul?p.judul:'Belum diisi. <a href="#" onclick="navigate(\'profil\');return false" style="color:var(--blue);font-weight:800">Isi profil →</a>';
+  const babs=S.get('babs')||defBabs();
+  const avg=Math.round(babs.reduce((a,b)=>a+b.pct,0)/babs.length);
+  document.getElementById('home-pct').textContent=avg+'%';
+  document.getElementById('home-bar').style.width=avg+'%';
+  const ms=S.get('ms')||defMs();
+  const sp=ms.find(m=>m.id==='sempro');
+  if(sp?.date){const d=Math.ceil((new Date(sp.date)-new Date())/(864e5));document.getElementById('home-cd').textContent=d>0?d:'✓';}
+  const moods=S.get('moods')||{};const td=today();
+  const mEl=document.getElementById('home-mood-inline');
+  if(moods[td]){mEl.innerHTML=`<span style="font-size:20px">${EMOJIS[moods[td].val]}</span> <span style="font-size:12px;font-weight:800;color:var(--gold)">${MOOD_LBL[moods[td].val]}</span>`;}
+  else{mEl.innerHTML=`<a href="#" onclick="navigate('mood');return false" style="font-size:11px;color:var(--gold);font-weight:800;text-decoration:none">Isi sekarang →</a>`;}
+  document.getElementById('home-quote').textContent=QUOTES[Math.floor(Math.random()*QUOTES.length)];
+}
+
+// ─── PROGRESS ───
+function defBabs(){return[{id:'proposal',name:'📋 Proposal',pct:0},{id:'bab1',name:'📝 Bab 1 — Pendahuluan',pct:0},{id:'bab2',name:'📚 Bab 2 — Tinjauan Pustaka',pct:0},{id:'bab3',name:'🔬 Bab 3 — Metodologi',pct:0},{id:'bab4',name:'📊 Bab 4 — Hasil & Pembahasan',pct:0},{id:'bab5',name:'🎯 Bab 5 — Kesimpulan',pct:0}];}
+function renderProgress(){
+  const babs=S.get('babs')||defBabs();
+  const avg=Math.round(babs.reduce((a,b)=>a+b.pct,0)/babs.length);
+  document.getElementById('total-pct').textContent=avg+'%';
+  document.getElementById('total-bar').style.width=avg+'%';
+  document.getElementById('bab-list').innerHTML=babs.map((b,i)=>`
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div style="font-size:13px;font-weight:800;color:var(--navy2)">${b.name}</div>
+        <div style="font-size:14px;font-weight:900;color:var(--gold)" id="pct-${b.id}">${b.pct}%</div>
+      </div>
+      <input type="range" class="bslider" min="0" max="100" value="${b.pct}" oninput="updBab('${b.id}',this.value,${i})">
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--blue3);margin-top:4px"><span>0%</span><span>50%</span><span>100%</span></div>
+    </div>
+  `).join('');
+}
+function updBab(id,val,idx){const babs=S.get('babs')||defBabs();babs[idx].pct=parseInt(val);S.set('babs',babs);document.getElementById('pct-'+id).textContent=val+'%';const avg=Math.round(babs.reduce((a,b)=>a+b.pct,0)/babs.length);document.getElementById('total-pct').textContent=avg+'%';document.getElementById('total-bar').style.width=avg+'%';}
+
+// ─── COUNTDOWN ───
+function defMs(){return[{id:'sempro',name:'📋 Sempro',sub:'Seminar Proposal',date:'',done:false},{id:'semhas',name:'📊 Semhas',sub:'Seminar Hasil',date:'',done:false},{id:'semtup',name:'🎓 Semtup',sub:'Ujian Tutup',date:'',done:false},{id:'yudisium',name:'🏅 Yudisium',sub:'Pengumuman Kelulusan',date:'',done:false},{id:'wisuda',name:'🎓 Wisuda',sub:'Seremoni Wisuda',date:'',done:false}];}
+function renderCountdown(){
+  const ms=S.get('ms')||defMs();
+  document.getElementById('milestone-list').innerHTML=ms.map((m,i)=>{
+    let pill='Isi tanggal',cls='';
+    if(m.done){pill='Done ✓';cls='done';}
+    else if(m.date){const d=Math.ceil((new Date(m.date)-new Date())/864e5);if(d<0){pill=Math.abs(d)+' hari lalu';}else if(d<=7){pill=d+' hari lagi';cls='soon';}else{pill=d+' hari lagi';}}
+    return`<div class="mstone ${m.done?'done':''}">
+      <div class="ms-row"><div><div class="ms-name">${m.name}</div><div class="ms-sub">${m.sub}</div></div><div class="days-pill ${cls}">${pill}</div></div>
+      <div style="display:flex;gap:8px;margin-top:12px;align-items:center">
+        <input type="date" style="flex:1;font-size:13px" value="${m.date}" onchange="updMs(${i},'date',this.value)">
+        <label style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:800;color:var(--navy2);cursor:pointer;white-space:nowrap">
+          <input type="checkbox" ${m.done?'checked':''} onchange="updMs(${i},'done',this.checked)" style="width:16px;height:16px"> Done ✓
+        </label>
+      </div>
+    </div>`;
+  }).join('');
+}
+function updMs(i,key,val){const ms=S.get('ms')||defMs();ms[i][key]=val;S.set('ms',ms);renderCountdown();}
+
+// ─── MOOD ───
+let selMood=0;
+function setMood(v){selMood=v;document.querySelectorAll('.mood-btn').forEach((b,i)=>b.classList.toggle('active',i===v-1));}
+function saveMood(){
+  if(!selMood){toast('Pilih mood dulu ya!');return;}
+  const moods=S.get('moods')||{};
+  moods[today()]={val:selMood,unek:document.getElementById('mood-unek').value,perbaiki:document.getElementById('mood-perbaiki').value,c1:document.getElementById('curhat1').value,c2:document.getElementById('curhat2').value,c3:document.getElementById('curhat3').value};
+  S.set('moods',moods);
+  renderHome();
+  toast('Mood tersimpan! '+EMOJIS[selMood]);
+  renderMoodWeek();
+}
+function renderMood(){
+  const moods=S.get('moods')||{};const td=today();
+  if(moods[td]){
+    setMood(moods[td].val);
+    document.getElementById('mood-unek').value=moods[td].unek||'';
+    document.getElementById('mood-perbaiki').value=moods[td].perbaiki||'';
+    document.getElementById('curhat1').value=moods[td].c1||'';
+    document.getElementById('curhat2').value=moods[td].c2||'';
+    document.getElementById('curhat3').value=moods[td].c3||'';
+  }else{selMood=0;document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('active'));}
+  renderMoodWeek();
+}
+function renderMoodWeek(){
+  const moods=S.get('moods')||{};const days=['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
+  let h='';
+  for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const k=d.toISOString().split('T')[0];const m=moods[k];h+=`<div class="mday"><div class="mday-dot">${m?EMOJIS[m.val]:'·'}</div><div class="mday-lbl">${days[d.getDay()]}</div></div>`;}
+  document.getElementById('mood-week').innerHTML=h;
+}
+function downloadMoodRecap(){
+  const moods=S.get('moods')||{};const p=gp();
+  let txt=`MY SKRIPSI JOURNEY — JOURNEY RECAP\nAdhazone - Teman Skripsimu\n${'='.repeat(40)}\nNama: ${p.nama||'-'}\nNIM : ${p.nim||'-'}\nJudul: ${p.judul||'-'}\n${'='.repeat(40)}\n\nMOOD TRACKER RECAP\n${'-'.repeat(30)}\n`;
+  const sorted=Object.keys(moods).sort().reverse().slice(0,30);
+  sorted.forEach(k=>{const m=moods[k];txt+=`\n📅 ${k}\nMood: ${EMOJIS[m.val]} ${MOOD_LBL[m.val]}\n`;if(m.unek)txt+=`💢 Unek-Unek: ${m.unek}\n`;if(m.perbaiki)txt+=`🔧 Perlu Diubah: ${m.perbaiki}\n`;if(m.c1)txt+=`🌟 Syukur: ${m.c1}\n`;if(m.c2)txt+=`✅ Lancar: ${m.c2}\n`;if(m.c3)txt+=`💪 Semangat dari: ${m.c3}\n`;});
+  txt+=`\n${'='.repeat(40)}\nDiunduh pada: ${new Date().toLocaleDateString('id-ID',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}\n© Adhazone - Teman Skripsimu`;
+  const blob=new Blob([txt],{type:'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Journey_Recap_Adhazone.txt';a.click();
+  toast('Journey Recap didownload! 📥');
+}
+
+// ─── REFERENSI ───
+let rfFilter='all';
+function filterRef(f,btn){rfFilter=f;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');renderRef();}
+function renderRef(){
+  const refs=S.get('refs')||[];
+  const f=refs.filter(r=>{if(rfFilter==='unread')return!r.read;if(rfFilter==='read')return r.read;if(rfFilter==='cited')return r.cited;return true;});
+  if(!f.length){document.getElementById('ref-list').innerHTML=`<div style="text-align:center;padding:40px;color:var(--blue3)"><div style="font-size:40px;margin-bottom:8px">📚</div><div style="font-size:13px">Belum ada referensi.<br>Tekan ＋ untuk tambah.</div></div>`;return;}
+  document.getElementById('ref-list').innerHTML=f.map(r=>{const i=refs.indexOf(r);return`
+    <div class="ref-card ${r.read?'read':''}">
+      <div class="ref-title">${r.judul}</div>
+      <div class="ref-meta">${r.penulis||'—'} • ${r.tahun||'—'}</div>
+      ${r.link?`<a href="${r.link}" target="_blank" style="font-size:11px;color:var(--blue);font-weight:800;display:block;margin-top:4px">🔗 Buka Link</a>`:''}
+      <div style="display:flex;gap:6px;margin-top:10px">
+        <button class="btn btn-sm ${r.read?'btn-gold':'btn-ghost'}" onclick="togRef(${i},'read')">${r.read?'✓ Dibaca':'Tandai Dibaca'}</button>
+        <button class="btn btn-sm ${r.cited?'btn-navy':'btn-ghost'}" onclick="togRef(${i},'cited')">${r.cited?'✓ Disitasi':'Sitasi'}</button>
+        <button class="btn btn-sm btn-red" onclick="delRef(${i})">🗑</button>
+      </div>
+    </div>`;}).join('');
+}
+function addRef(){const j=document.getElementById('rf-j').value.trim();if(!j){toast('Judul wajib diisi!');return;}const refs=S.get('refs')||[];refs.push({judul:j,penulis:document.getElementById('rf-p').value,tahun:document.getElementById('rf-t').value,link:document.getElementById('rf-l').value,read:false,cited:false});S.set('refs',refs);closeModal('modal-ref');['rf-j','rf-p','rf-t','rf-l'].forEach(id=>document.getElementById(id).value='');renderRef();toast('Referensi ditambahkan! 📚');}
+function togRef(i,key){const refs=S.get('refs')||[];refs[i][key]=!refs[i][key];S.set('refs',refs);renderRef();}
+function delRef(i){const refs=S.get('refs')||[];refs.splice(i,1);S.set('refs',refs);renderRef();}
+
+// ─── DAILY LOG ───
+function renderLog(){
+  const td=today();
+  document.getElementById('log-date').textContent=new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const log=S.get('log_'+td)||{target:'',todos:[],notes:''};
+  document.getElementById('log-target').value=log.target||'';
+  document.getElementById('log-notes').value=log.notes||'';
+  renderTodos(log.todos||[]);
+}
+function renderTodos(todos){
+  document.getElementById('todo-list').innerHTML=!todos.length?'<div style="font-size:13px;color:var(--blue3);padding:8px 0">Belum ada tugas.</div>':todos.map((td,i)=>`
+    <div class="todo-item">
+      <div class="todo-chk ${td.done?'done':''}" onclick="togTodo(${i})">${td.done?'<span style="color:white;font-size:11px">✓</span>':''}</div>
+      <div style="flex:1">
+        <div class="todo-text ${td.done?'done':''}">${td.text}</div>
+        ${(td.jam||td.lokasi)?`<div class="todo-meta">${td.jam?'🕐 '+td.jam:''}${td.jam&&td.lokasi?' • ':''}${td.lokasi?'📍 '+td.lokasi:''}</div>`:''}
+      </div>
+      <button class="todo-del" onclick="delTodo(${i})">×</button>
+    </div>`).join('');
+}
+function addTodo(){const text=document.getElementById('new-todo').value.trim();if(!text)return;const td=today();const log=S.get('log_'+td)||{target:'',todos:[],notes:''};log.todos.push({text,jam:document.getElementById('new-jam').value,lokasi:document.getElementById('new-lokasi').value,done:false});S.set('log_'+td,log);document.getElementById('new-todo').value='';document.getElementById('new-jam').value='';document.getElementById('new-lokasi').value='';renderTodos(log.todos);}
+function togTodo(i){const td=today();const log=S.get('log_'+td)||{target:'',todos:[],notes:''};log.todos[i].done=!log.todos[i].done;S.set('log_'+td,log);renderTodos(log.todos);}
+function delTodo(i){const td=today();const log=S.get('log_'+td)||{target:'',todos:[],notes:''};log.todos.splice(i,1);S.set('log_'+td,log);renderTodos(log.todos);}
+function saveLog(){const td=today();const log=S.get('log_'+td)||{target:'',todos:[],notes:''};log.target=document.getElementById('log-target').value;log.notes=document.getElementById('log-notes').value;S.set('log_'+td,log);toast('Log tersimpan! 📋');}
+
+// ─── SUBTASK / BAB BREAKER ───
+const BAB_NAMES={proposal:'📋 Proposal',bab1:'📝 Bab 1 — Pendahuluan',bab2:'📚 Bab 2 — Tinjauan Pustaka',bab3:'🔬 Bab 3 — Metodologi',bab4:'📊 Bab 4 — Hasil & Pembahasan',bab5:'🎯 Bab 5 — Kesimpulan'};
+function renderSubtask(){
+  const subs=S.get('subtasks')||{};
+  document.getElementById('subtask-babs').innerHTML=Object.keys(BAB_NAMES).map(bab=>{
+    const tasks=(subs[bab]||[]);
+    const done=tasks.filter(t=>t.done).length;
+    return`<div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div style="font-size:13px;font-weight:800;color:var(--navy2)">${BAB_NAMES[bab]}</div>
+        <span class="badge ${done===tasks.length&&tasks.length>0?'bd-done':'bd-wait'}">${done}/${tasks.length}</span>
+      </div>
+      <div>${!tasks.length?`<div style="font-size:12px;color:var(--blue3);padding:4px 0">Belum ada tugas. Tekan ＋ untuk tambah.</div>`:tasks.map((t,i)=>`
+        <div class="subtask-item">
+          <div class="sub-chk ${t.done?'done':''}" onclick="togSub('${bab}',${i})">${t.done?'<span style="color:white;font-size:10px">✓</span>':''}</div>
+          <span class="sub-text ${t.done?'done':''}">${t.text}</span>
+          <button class="todo-del" onclick="delSub('${bab}',${i})">×</button>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+function addSubtask(){const bab=document.getElementById('sub-bab').value;const text=document.getElementById('sub-text').value.trim();if(!text){toast('Isi tugas dulu!');return;}const subs=S.get('subtasks')||{};if(!subs[bab])subs[bab]=[];subs[bab].push({text,done:false});S.set('subtasks',subs);closeModal('modal-sub');document.getElementById('sub-text').value='';renderSubtask();toast('Tugas ditambahkan! ⚡');}
+function togSub(bab,i){const subs=S.get('subtasks')||{};subs[bab][i].done=!subs[bab][i].done;S.set('subtasks',subs);renderSubtask();}
+function delSub(bab,i){const subs=S.get('subtasks')||{};subs[bab].splice(i,1);S.set('subtasks',subs);renderSubtask();}
+
+// ─── MODAL ───
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.moverlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
+
+// ─── TOAST ───
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2400);}
+
+// ─── INIT ───
+renderHome();
+</script>
+</body>
+  </html>
