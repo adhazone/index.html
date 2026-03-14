@@ -2,29 +2,33 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
 <title>My Skripsi Journey — Adhazone</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --navy:#0C2340; --navy2:#1A3C5E; --navy3:#1F4E79;
-  --blue:#2E6DA4; --blue2:#5BA3D9; --blue3:#90BFE8; --blue4:#BDD9F2; --blue5:#D6EAFA; --blue6:#EBF4FB;
-  --gold:#E8B84B; --gold2:#F0C84A; --gold3:#F7DC8E; --gold4:#FDF6E3; --gold5:#FEFBF0;
-  --white:#FFFFFF; --offwhite:#F8FAFC; --nav-h:68px; --r:16px;
-  --sh:0 4px 20px rgba(12,35,64,.10);
+  /* Sky Blue palette */
+  --navy:#0A2A4A; --navy2:#0D3B6E; --navy3:#1255A0;
+  --blue:#1E90C8; --blue2:#38B0E8; --blue3:#71CBF0; --blue4:#A8DFF7; --blue5:#D0EFFA; --blue6:#E8F7FD;
+  /* Accent: soft coral/peach replaced gold for contrast on sky */
+  --gold:#FF7043; --gold2:#FF8A65; --gold3:#FFCCBC; --gold4:#FFF3EF; --gold5:#FFF8F6;
+  --white:#FFFFFF; --offwhite:#F4FBFF; --nav-h:68px; --r:16px;
+  --sh:0 4px 20px rgba(10,42,74,.10);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:'Nunito',sans-serif;background:var(--blue6);color:var(--navy);max-width:430px;margin:0 auto;min-height:100vh;overflow-x:hidden}
+html{height:100%}
+body{font-family:'Nunito',sans-serif;background:var(--blue6);color:var(--navy);max-width:430px;margin:0 auto;min-height:100%;overflow-x:hidden;-webkit-overflow-scrolling:touch}
 
 /* SCREENS */
-.screen{display:none;padding:16px 14px calc(var(--nav-h)+24px);min-height:100vh;animation:fadeUp .28s ease}
+.screen{display:none;padding:16px 14px calc(var(--nav-h) + 40px + var(--safe-bottom));min-height:100vh;animation:fadeUp .28s ease}
 .screen.active{display:block}
 #screen-home{padding-top:0;padding-left:0;padding-right:0}
 #screen-home > *:not(:first-child){margin-left:14px;margin-right:14px}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
 /* NAV */
-.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--white);border-top:2px solid var(--blue5);display:flex;height:var(--nav-h);box-shadow:0 -4px 20px rgba(12,35,64,.08);z-index:100}
+.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--white);border-top:2px solid var(--blue5);display:flex;height:calc(var(--nav-h) + var(--safe-bottom));padding-bottom:var(--safe-bottom);box-shadow:0 -4px 20px rgba(12,35,64,.08);z-index:1000}
 .ni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;border:none;background:none;font-family:inherit;color:var(--blue3);transition:all .18s;padding:8px 2px}
 .ni.active{color:var(--navy2)}
 .ni-ico{font-size:22px;width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;transition:all .18s}
@@ -32,7 +36,7 @@ body{font-family:'Nunito',sans-serif;background:var(--blue6);color:var(--navy);m
 .ni-lbl{font-size:9px;font-weight:800;letter-spacing:.4px}
 
 /* BRANDING HEADER */
-.brand-bar{background:linear-gradient(135deg,var(--navy) 0%,var(--navy3) 100%);padding:8px 16px;display:flex;align-items:center;gap:8px;border-radius:0 0 16px 16px;margin:-16px -14px 16px;position:sticky;top:0;z-index:50}
+.brand-bar{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);padding:8px 16px;display:flex;align-items:center;gap:8px;border-radius:0 0 16px 16px;margin:-16px -14px 16px;position:sticky;top:0;z-index:50}
 .brand-name{font-size:10px;font-weight:900;letter-spacing:2px;color:var(--gold);text-transform:uppercase}
 .brand-sub{font-size:9px;color:var(--blue3);font-weight:600}
 .brand-dot{width:4px;height:4px;border-radius:50%;background:var(--gold);opacity:.6}
@@ -44,8 +48,8 @@ body{font-family:'Nunito',sans-serif;background:var(--blue6);color:var(--navy);m
 
 /* BUTTONS */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:10px;border:none;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;transition:all .15s;white-space:nowrap}
-.btn-navy{background:var(--navy2);color:var(--gold)}
-.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-navy{background:var(--navy2);color:var(--white)}
+.btn-gold{background:var(--gold);color:var(--white)}
 .btn-ghost{background:var(--blue6);color:var(--navy2)}
 .btn-red{background:#FCECEA;color:#B03A2E}
 .btn-sm{padding:7px 12px;font-size:12px;border-radius:8px}
@@ -68,7 +72,7 @@ textarea{resize:none;min-height:72px}
 .bd-wait{background:var(--blue6);color:var(--blue)}
 
 /* QUOTE BOX */
-.qbox{background:var(--navy);border-radius:14px;padding:14px 16px;border-left:4px solid var(--gold);margin-bottom:14px}
+.qbox{background:var(--navy2);border-radius:14px;padding:14px 16px;border-left:4px solid var(--blue3);margin-bottom:14px}
 .qtext{font-size:13px;color:var(--blue4);font-style:italic;line-height:1.65}
 
 /* MODAL */
@@ -81,17 +85,17 @@ textarea{resize:none;min-height:72px}
 .mclose{float:right;background:none;border:none;font-size:20px;color:var(--blue3);cursor:pointer;margin-top:-2px}
 
 /* TOAST */
-#toast{position:fixed;bottom:calc(var(--nav-h)+14px);left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy);color:var(--gold);padding:10px 20px;border-radius:12px;font-size:13px;font-weight:800;z-index:999;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.25);opacity:0;transition:all .3s;pointer-events:none}
+#toast{position:fixed;bottom:calc(var(--nav-h)+14px);left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy2);color:var(--white);padding:10px 20px;border-radius:12px;font-size:13px;font-weight:800;z-index:999;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.25);opacity:0;transition:all .3s;pointer-events:none}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 /* FAB */
-.fab{position:fixed;bottom:calc(var(--nav-h)+14px);right:14px;width:50px;height:50px;border-radius:50%;background:var(--navy2);color:var(--gold);font-size:26px;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(12,35,64,.3);display:none;align-items:center;justify-content:center;z-index:90;transition:transform .15s}
+.fab{position:fixed;bottom:calc(var(--nav-h)+14px);right:14px;width:50px;height:50px;border-radius:50%;background:var(--blue);color:var(--white);font-size:26px;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(10,42,74,.3);display:none;align-items:center;justify-content:center;z-index:90;transition:transform .15s}
 .fab:active{transform:scale(.9)}
 .fab.show{display:flex}
 
 /* PROGRESS SLIDER */
 .bslider{width:100%;-webkit-appearance:none;height:6px;border-radius:99px;background:var(--blue5);outline:none;cursor:pointer}
-.bslider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--navy2);cursor:pointer;border:3px solid var(--gold)}
+.bslider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--navy2);cursor:pointer;border:3px solid var(--blue3)}
 
 /* TABS */
 .tabs{display:flex;background:var(--blue6);border-radius:12px;padding:4px;margin-bottom:14px}
@@ -111,7 +115,7 @@ textarea{resize:none;min-height:72px}
 /* MOOD SECTION */
 .mood-sel{display:flex;justify-content:space-between;gap:4px;margin-bottom:14px}
 .mood-btn{flex:1;padding:10px 2px;border-radius:12px;border:2px solid var(--blue5);background:var(--white);display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;transition:all .15s;font-family:inherit}
-.mood-btn.active{border-color:var(--gold);background:var(--gold4)}
+.mood-btn.active{border-color:var(--blue);background:var(--blue6)}
 .mood-em{font-size:22px}
 .mood-lbl{font-size:10px;font-weight:800;color:var(--navy2)}
 .mood-week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:8px}
@@ -141,12 +145,12 @@ textarea{resize:none;min-height:72px}
 .ms-row{display:flex;align-items:center;justify-content:space-between}
 .ms-name{font-size:14px;font-weight:800;color:var(--navy2)}
 .ms-sub{font-size:11px;color:var(--blue2);margin-top:2px}
-.days-pill{background:var(--navy);color:var(--gold);padding:6px 12px;border-radius:10px;font-size:12px;font-weight:900;white-space:nowrap}
-.days-pill.soon{background:var(--gold);color:var(--navy)}
+.days-pill{background:var(--navy2);color:var(--white);padding:6px 12px;border-radius:10px;font-size:12px;font-weight:900;white-space:nowrap}
+.days-pill.soon{background:var(--blue);color:var(--white)}
 .days-pill.done{background:#E6F4ED;color:#1A6B45}
 
 /* DOWNLOAD BUTTON */
-.dl-btn{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--navy2),var(--navy3));color:var(--gold);border:none;border-radius:12px;padding:12px 18px;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;width:100%;justify-content:center;margin-top:8px}
+.dl-btn{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--navy2),var(--navy3));color:var(--white);border:none;border-radius:12px;padding:12px 18px;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;width:100%;justify-content:center;margin-top:8px}
 </style>
 </head>
 <body>
@@ -163,11 +167,11 @@ textarea{resize:none;min-height:72px}
 <div class="screen active" id="screen-home">
 
   <!-- ── UNIFIED HERO PANEL ── -->
-  <div style="background:linear-gradient(160deg,var(--navy) 0%,var(--navy3) 60%,#2A5A8C 100%);border-radius:0 0 28px 28px;padding:0;margin-bottom:14px;position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(12,35,64,.25)">
+  <div style="background:linear-gradient(160deg,#0A2A4A 0%,#0D3B6E 45%,#1255A0 100%);border-radius:0 0 28px 28px;padding:0;margin-bottom:14px;position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(10,42,74,.28)">
 
     <!-- decorative blobs -->
-    <div style="position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(232,184,75,.18),transparent 70%);pointer-events:none"></div>
-    <div style="position:absolute;bottom:-30px;left:-30px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(93,163,217,.15),transparent 70%);pointer-events:none"></div>
+    <div style="position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(56,176,232,.22),transparent 70%);pointer-events:none"></div>
+    <div style="position:absolute;bottom:-30px;left:-30px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(255,112,67,.14),transparent 70%);pointer-events:none"></div>
     <div style="position:absolute;top:50%;right:16px;font-size:90px;opacity:.06;transform:translateY(-50%);pointer-events:none;line-height:1">🎓</div>
 
     <!-- brand strip inside hero -->
@@ -287,7 +291,7 @@ textarea{resize:none;min-height:72px}
       <div style="flex:1">
         <div style="font-size:12px;color:var(--blue2);margin-bottom:6px">Keseluruhan</div>
         <div style="background:var(--blue5);border-radius:99px;height:10px;overflow:hidden">
-          <div id="total-bar" style="height:100%;border-radius:99px;background:linear-gradient(90deg,var(--navy2),var(--blue2));transition:width .5s;width:0%"></div>
+          <div id="total-bar" style="height:100%;border-radius:99px;background:linear-gradient(90deg,var(--navy2),var(--blue));transition:width .5s;width:0%"></div>
         </div>
       </div>
     </div>
@@ -529,8 +533,8 @@ function renderHome(){
   if(sp?.date){const d=Math.ceil((new Date(sp.date)-new Date())/(864e5));document.getElementById('home-cd').textContent=d>0?d:'✓';}
   const moods=S.get('moods')||{};const td=today();
   const mEl=document.getElementById('home-mood-inline');
-  if(moods[td]){mEl.innerHTML=`<span style="font-size:20px">${EMOJIS[moods[td].val]}</span> <span style="font-size:12px;font-weight:800;color:var(--gold)">${MOOD_LBL[moods[td].val]}</span>`;}
-  else{mEl.innerHTML=`<a href="#" onclick="navigate('mood');return false" style="font-size:11px;color:var(--gold);font-weight:800;text-decoration:none">Isi sekarang →</a>`;}
+  if(moods[td]){mEl.innerHTML=`<span style="font-size:20px">${EMOJIS[moods[td].val]}</span> <span style="font-size:12px;font-weight:800;color:var(--blue3)">${MOOD_LBL[moods[td].val]}</span>`;}
+  else{mEl.innerHTML=`<a href="#" onclick="navigate('mood');return false" style="font-size:11px;color:var(--blue3);font-weight:800;text-decoration:none">Isi sekarang →</a>`;}
   document.getElementById('home-quote').textContent=QUOTES[Math.floor(Math.random()*QUOTES.length)];
 }
 
@@ -701,4 +705,4 @@ function toast(msg){const el=document.getElementById('toast');el.textContent=msg
 renderHome();
 </script>
 </body>
-  </html>
+</html>
