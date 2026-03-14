@@ -75,14 +75,25 @@ textarea{resize:none;min-height:72px}
 .qbox{background:var(--navy2);border-radius:14px;padding:14px 16px;border-left:4px solid var(--blue3);margin-bottom:14px}
 .qtext{font-size:13px;color:var(--blue4);font-style:italic;line-height:1.65}
 
-/* MODAL */
-.moverlay{display:none;position:fixed;inset:0;background:rgba(12,35,64,.55);z-index:200;align-items:flex-end;justify-content:center}
-.moverlay.open{display:flex;animation:mfade .2s}
+/* MODAL — full-screen approach for mobile keyboard compatibility */
+.moverlay{display:none;position:fixed;inset:0;background:rgba(12,35,64,.6);z-index:200;align-items:flex-end;justify-content:center;padding-bottom:0}
+.moverlay.open{display:flex;animation:mfade .18s}
 @keyframes mfade{from{opacity:0}to{opacity:1}}
-.modal{background:var(--white);border-radius:24px 24px 0 0;width:100%;max-width:430px;animation:mup .25s ease;max-height:70vh;overflow:hidden}
+.modal{
+  background:var(--white);
+  border-radius:24px 24px 0 0;
+  width:100%;max-width:430px;
+  animation:mup .22s ease;
+  display:flex;flex-direction:column;
+  height:auto;
+  max-height:calc(100vh - 60px);
+}
 @keyframes mup{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.mtitle{font-size:15px;font-weight:900;color:var(--navy2);margin-bottom:16px}
-.mclose{float:right;background:none;border:none;font-size:22px;color:var(--blue3);cursor:pointer;margin-top:-2px;padding:4px 8px;line-height:1}
+.modal-header{padding:18px 18px 12px;flex-shrink:0;border-bottom:1px solid var(--blue5)}
+.modal-body{flex:1;overflow-y:scroll;-webkit-overflow-scrolling:touch;padding:14px 18px}
+.modal-footer{padding:12px 18px;padding-bottom:max(16px,env(safe-area-inset-bottom,16px));flex-shrink:0;border-top:1px solid var(--blue5);background:var(--white)}
+.mtitle{font-size:15px;font-weight:900;color:var(--navy2);margin:0}
+.mclose{float:right;background:var(--blue6);border:none;font-size:18px;color:var(--navy2);cursor:pointer;padding:6px 10px;border-radius:8px;line-height:1;font-weight:900;margin-top:-2px}
 
 /* TOAST */
 #toast{position:fixed;bottom:calc(var(--nav-h)+14px);left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy2);color:var(--white);padding:10px 20px;border-radius:12px;font-size:13px;font-weight:800;z-index:999;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.25);opacity:0;transition:all .3s;pointer-events:none}
@@ -439,49 +450,52 @@ textarea{resize:none;min-height:72px}
   <button class="ni" onclick="navigate('log',this)"><div class="ni-ico">📋</div><span class="ni-lbl">Daily Log</span></button>
 </nav>
 
-<!-- MODAL: Add Ref -->
-<div class="moverlay" id="modal-ref">
-  <div class="modal" style="padding:0;display:flex;flex-direction:column;max-height:70vh">
-    <div style="padding:18px 18px 0;flex-shrink:0">
-      <button class="mclose" onclick="closeModal('modal-ref')">✕</button>
-      <div class="mtitle">📚 Tambah Referensi</div>
-    </div>
-    <div style="overflow-y:auto;padding:0 18px;flex:1;-webkit-overflow-scrolling:touch">
-      <div class="ig"><label class="il">Judul</label><input type="text" id="rf-j" placeholder="Judul jurnal / buku..."></div>
-      <div class="ig"><label class="il">Penulis</label><input type="text" id="rf-p" placeholder="Nama penulis..."></div>
-      <div class="ig"><label class="il">Tahun</label><input type="text" id="rf-t" placeholder="2024"></div>
-      <div class="ig"><label class="il">Link (opsional)</label><input type="url" id="rf-l" placeholder="https://..."></div>
-    </div>
-    <div style="padding:14px 18px;padding-bottom:max(18px,env(safe-area-inset-bottom,18px));border-top:1px solid var(--blue5);flex-shrink:0">
-      <button class="btn btn-navy btn-full" onclick="addRef()">💾 Simpan Referensi</button>
-    </div>
+<!-- ════════════════════════════════
+     SCREEN: FORM REFERENSI
+════════════════════════════════ -->
+<div class="screen" id="screen-form-ref">
+  <div class="brand-bar"><span style="font-size:18px">📚</span><div><div class="brand-name">Adhazone</div><div class="brand-sub">Teman Skripsimu</div></div></div>
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
+    <button onclick="navigate('ref')" style="background:var(--blue6);border:none;border-radius:10px;padding:8px 12px;font-size:18px;cursor:pointer">←</button>
+    <div style="font-family:'Playfair Display',serif;font-size:20px;color:var(--navy2)">Tambah Referensi 📚</div>
   </div>
+  <div class="card">
+    <div class="ig"><label class="il">Judul *</label><input type="text" id="rf-j" placeholder="Judul jurnal / buku..."></div>
+    <div class="ig"><label class="il">Penulis</label><input type="text" id="rf-p" placeholder="Nama penulis..."></div>
+    <div class="ig"><label class="il">Tahun</label><input type="text" id="rf-t" placeholder="2024"></div>
+    <div class="ig" style="margin:0"><label class="il">Link (opsional)</label><input type="url" id="rf-l" placeholder="https://..."></div>
+  </div>
+  <button class="btn btn-navy btn-full" style="margin-top:4px" onclick="addRef()">💾 Simpan Referensi</button>
+  <div style="height:12px"></div>
 </div>
 
-<!-- MODAL: Add Subtask -->
-<div class="moverlay" id="modal-sub">
-  <div class="modal" style="padding:0;display:flex;flex-direction:column;max-height:70vh">
-    <div style="padding:18px 18px 0;flex-shrink:0">
-      <button class="mclose" onclick="closeModal('modal-sub')">✕</button>
-      <div class="mtitle">⚡ Tambah Tugas Kecil</div>
+<!-- ════════════════════════════════
+     SCREEN: FORM SUBTASK
+════════════════════════════════ -->
+<div class="screen" id="screen-form-sub">
+  <div class="brand-bar"><span style="font-size:18px">⚡</span><div><div class="brand-name">Adhazone</div><div class="brand-sub">Teman Skripsimu</div></div></div>
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
+    <button onclick="navigate('subtask')" style="background:var(--blue6);border:none;border-radius:10px;padding:8px 12px;font-size:18px;cursor:pointer">←</button>
+    <div style="font-family:'Playfair Display',serif;font-size:20px;color:var(--navy2)">Tambah Tugas Kecil ⚡</div>
+  </div>
+  <div class="card">
+    <div class="ig"><label class="il">Bab</label>
+      <select id="sub-bab">
+        <option value="proposal">Proposal</option>
+        <option value="bab1">Bab 1 — Pendahuluan</option>
+        <option value="bab2">Bab 2 — Tinjauan Pustaka</option>
+        <option value="bab3">Bab 3 — Metodologi</option>
+        <option value="bab4">Bab 4 — Hasil & Pembahasan</option>
+        <option value="bab5">Bab 5 — Kesimpulan</option>
+      </select>
     </div>
-    <div style="overflow-y:auto;padding:0 18px;flex:1;-webkit-overflow-scrolling:touch">
-      <div class="ig"><label class="il">Bab</label>
-        <select id="sub-bab">
-          <option value="proposal">Proposal</option>
-          <option value="bab1">Bab 1 — Pendahuluan</option>
-          <option value="bab2">Bab 2 — Tinjauan Pustaka</option>
-          <option value="bab3">Bab 3 — Metodologi</option>
-          <option value="bab4">Bab 4 — Hasil & Pembahasan</option>
-          <option value="bab5">Bab 5 — Kesimpulan</option>
-        </select>
-      </div>
-      <div class="ig"><label class="il">Tugas Kecil (15 menit)</label><input type="text" id="sub-text" placeholder="Misal: Tulis 2 paragraf pembuka..."></div>
-    </div>
-    <div style="padding:14px 18px;padding-bottom:max(18px,env(safe-area-inset-bottom,18px));border-top:1px solid var(--blue5);flex-shrink:0">
-      <button class="btn btn-navy btn-full" onclick="addSubtask()">⚡ Tambah Tugas</button>
+    <div class="ig" style="margin:0"><label class="il">Tugas Kecil (15 menit)</label>
+      <input type="text" id="sub-text" placeholder="Misal: Tulis 2 paragraf pembuka...">
     </div>
   </div>
+  <div style="margin-top:4px;font-size:12px;color:var(--blue3);margin-bottom:12px">💡 Tugas yang bisa selesai dalam 15 menit — satu langkah kecil sudah cukup!</div>
+  <button class="btn btn-navy btn-full" onclick="addSubtask()">⚡ Tambah Tugas</button>
+  <div style="height:12px"></div>
 </div>
 
 <script>
@@ -490,7 +504,7 @@ const S={get:k=>{try{return JSON.parse(localStorage.getItem('msj_'+k))}catch{ret
 const today=()=>new Date().toISOString().split('T')[0];
 
 // ─── NAV ───
-const SCREENS=['home','profil','progress','countdown','mood','ref','log','subtask'];
+const SCREENS=['home','profil','progress','countdown','mood','ref','log','subtask','form-ref','form-sub'];
 let curScreen='home';
 function navigate(id,btn){
   SCREENS.forEach(s=>document.getElementById('screen-'+s)?.classList.remove('active'));
@@ -498,7 +512,8 @@ function navigate(id,btn){
   document.querySelectorAll('.ni').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
   const fab=document.getElementById('fab');
-  fab.className='fab'+((['ref','subtask'].includes(id))?' show':'');
+  // Show FAB only on ref and subtask screens as shortcut to form
+  fab.className='fab'+(id==='ref'||id==='subtask'?' show':'');
   curScreen=id;
   window.scrollTo(0,0);
   if(id==='home')renderHome();
@@ -511,8 +526,8 @@ function navigate(id,btn){
   if(id==='subtask')renderSubtask();
 }
 function handleFab(){
-  if(curScreen==='ref')openModal('modal-ref');
-  if(curScreen==='subtask')openModal('modal-sub');
+  if(curScreen==='ref')navigate('form-ref');
+  if(curScreen==='subtask')navigate('form-sub');
 }
 
 // ─── PROFIL ───
@@ -650,7 +665,16 @@ function renderRef(){
       </div>
     </div>`;}).join('');
 }
-function addRef(){const j=document.getElementById('rf-j').value.trim();if(!j){toast('Judul wajib diisi!');return;}const refs=S.get('refs')||[];refs.push({judul:j,penulis:document.getElementById('rf-p').value,tahun:document.getElementById('rf-t').value,link:document.getElementById('rf-l').value,read:false,cited:false});S.set('refs',refs);closeModal('modal-ref');['rf-j','rf-p','rf-t','rf-l'].forEach(id=>document.getElementById(id).value='');renderRef();toast('Referensi ditambahkan! 📚');}
+function addRef(){
+  const j=document.getElementById('rf-j').value.trim();
+  if(!j){toast('Judul wajib diisi!');return;}
+  const refs=S.get('refs')||[];
+  refs.push({judul:j,penulis:document.getElementById('rf-p').value,tahun:document.getElementById('rf-t').value,link:document.getElementById('rf-l').value,read:false,cited:false});
+  S.set('refs',refs);
+  ['rf-j','rf-p','rf-t','rf-l'].forEach(id=>document.getElementById(id).value='');
+  navigate('ref');
+  toast('Referensi ditambahkan! 📚');
+}
 function togRef(i,key){const refs=S.get('refs')||[];refs[i][key]=!refs[i][key];S.set('refs',refs);renderRef();}
 function delRef(i){const refs=S.get('refs')||[];refs.splice(i,1);S.set('refs',refs);renderRef();}
 
@@ -701,23 +725,20 @@ function renderSubtask(){
     </div>`;
   }).join('');
 }
-function addSubtask(){const bab=document.getElementById('sub-bab').value;const text=document.getElementById('sub-text').value.trim();if(!text){toast('Isi tugas dulu!');return;}const subs=S.get('subtasks')||{};if(!subs[bab])subs[bab]=[];subs[bab].push({text,done:false});S.set('subtasks',subs);closeModal('modal-sub');document.getElementById('sub-text').value='';renderSubtask();toast('Tugas ditambahkan! ⚡');}
+function addSubtask(){
+  const bab=document.getElementById('sub-bab').value;
+  const text=document.getElementById('sub-text').value.trim();
+  if(!text){toast('Isi tugas dulu!');return;}
+  const subs=S.get('subtasks')||{};
+  if(!subs[bab])subs[bab]=[];
+  subs[bab].push({text,done:false});
+  S.set('subtasks',subs);
+  document.getElementById('sub-text').value='';
+  navigate('subtask');
+  toast('Tugas ditambahkan! ⚡');
+}
 function togSub(bab,i){const subs=S.get('subtasks')||{};subs[bab][i].done=!subs[bab][i].done;S.set('subtasks',subs);renderSubtask();}
 function delSub(bab,i){const subs=S.get('subtasks')||{};subs[bab].splice(i,1);S.set('subtasks',subs);renderSubtask();}
-
-// ─── MODAL ───
-function openModal(id){
-  const el=document.getElementById(id);
-  el.classList.add('open');
-  document.body.style.overflow='hidden';
-  // scroll modal content to top
-  setTimeout(()=>{const m=el.querySelector('.modal');if(m)m.scrollTop=0;},50);
-}
-function closeModal(id){
-  document.getElementById(id).classList.remove('open');
-  document.body.style.overflow='';
-}
-document.querySelectorAll('.moverlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m){m.classList.remove('open');document.body.style.overflow='';}}));
 
 // ─── TOAST ───
 function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2400);}
